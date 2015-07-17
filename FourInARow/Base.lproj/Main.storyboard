@@ -20,7 +20,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" id="ecg-w7-r4t">
-                                <rect key="frame" x="16" y="106" width="288" height="315"/>
+                                <rect key="frame" x="16" y="106" width="288" height="311"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.29304030129999997" green="0.85775209770000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="contentInset" minX="4" minY="4" maxX="4" maxY="4"/>
