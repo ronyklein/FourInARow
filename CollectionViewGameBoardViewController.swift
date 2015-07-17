@@ -27,17 +27,23 @@ class CollectionViewGameBoardViewController: UIViewController ,UICollectionViewD
             var wintime : Int
             var ShareToFacebook : SLComposeViewController =
             SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            if game.currentStatus == GameStatus.xWon {
-                winner = name1
-                loser = name2
-                wintime = timer1
+            if game.currentStatus == GameStatus.Draw {
+                wintext = ("\(name1) and \(name2) played the game four in a row and reached a draw")
             }
             else {
-                winner = name2
-                loser = name1
-                wintime = timer2
+                if game.currentStatus == GameStatus.xWon {
+                    winner = name1
+                    loser = name2
+                    wintime = timer1
+                }
+                else {
+                    winner = name2
+                    loser = name1
+                    wintime = timer2
+                }
+                
+                wintext = ("\(winner) won \(loser) in \(wintime) seconds in the game of four in a row" )
             }
-            wintext = ("\(winner) won \(loser) in \(wintime) seconds in the game of four in a row" )
             ShareToFacebook.setInitialText(wintext)
             self.presentViewController(ShareToFacebook, animated: true, completion: nil)
         }
@@ -52,14 +58,14 @@ class CollectionViewGameBoardViewController: UIViewController ,UICollectionViewD
         super.viewDidLoad()
         timerLabel1.text = "time for \(name1):"
         timerLabel2.text = "time for \(name2):"
-       changeLabel()
+        changeLabel()
         startTimer()
         
         
         
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -79,19 +85,19 @@ class CollectionViewGameBoardViewController: UIViewController ,UICollectionViewD
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if !game.gameEnded {
-        let cell = gameBoard.cellForItemAtIndexPath(indexPath) as? MyGameCell
-        if (game.isActiveInItem(indexPath.item)) {
-        if game.currentStatus == GameStatus.xPlaying {
-                cell?.displayx()
-                game.setMode(BrickMode.X, inItem: indexPath.item)
-            
-        }
-        else {
-            cell?.displayo()
-            game.setMode(BrickMode.O, inItem: indexPath.item)
-        }
-            changeLabel()
-        }
+            let cell = gameBoard.cellForItemAtIndexPath(indexPath) as? MyGameCell
+            if (game.isActiveInItem(indexPath.item)) {
+                if game.currentStatus == GameStatus.xPlaying {
+                    cell?.displayx()
+                    game.setMode(BrickMode.X, inItem: indexPath.item)
+                    
+                }
+                else {
+                    cell?.displayo()
+                    game.setMode(BrickMode.O, inItem: indexPath.item)
+                }
+                changeLabel()
+            }
         }
     }
     func changeLabel() {
@@ -111,31 +117,31 @@ class CollectionViewGameBoardViewController: UIViewController ,UICollectionViewD
             statuslabel.text = "\(name1) won the game"
         }
     }
-        func startTimer() {
-            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "timeChange", userInfo: nil, repeats: true)
-    
+    func startTimer() {
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "timeChange", userInfo: nil, repeats: true)
+        
     }
     func timeChange(){
         if !game.gameEnded {
-        if game.currentStatus == GameStatus.xPlaying {
-            timer1 += 1
-            gameTime1.text = "\(timer1)"
-        }
-        else if game.currentStatus == GameStatus.oPlaying {
-            timer2 += 1
-            gameTime2.text = "\(timer2)"
-        }
+            if game.currentStatus == GameStatus.xPlaying {
+                timer1 += 1
+                gameTime1.text = "\(timer1)"
+            }
+            else if game.currentStatus == GameStatus.oPlaying {
+                timer2 += 1
+                gameTime2.text = "\(timer2)"
+            }
         }
         
     }
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    
 }

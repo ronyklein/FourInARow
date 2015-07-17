@@ -28,6 +28,7 @@ let kMaxCol = 7
 let kDistance = 3
 let kStartBricks = 55
 let kWinNumVal = 4
+let kBrickNum = kMatrixSize * kMatrixSize
 class GameManager: NSObject {
     var currentStatus : GameStatus
     var matrix : [[BrickMode]]
@@ -39,6 +40,7 @@ class GameManager: NSObject {
         
         let array = [BrickMode](count: kMatrixSize, repeatedValue: BrickMode.Empty)
         self.matrix = [[BrickMode]](count: kMatrixSize, repeatedValue: array)
+        
         super.init()
         
         
@@ -193,7 +195,17 @@ class GameManager: NSObject {
                 inLine = 0
             }
         }
-        
+        var counter = 0
+        for(var i = 0;i < kBrickNum;i++){
+            if matrix[i / kMatrixSize][i % kMatrixSize] != BrickMode.Empty {
+                counter++
+            }
+        }
+        if counter == kBrickNum {
+            self.currentStatus = GameStatus.Draw;
+            gameEnded = true;
+            return self.currentStatus;
+        }
         
         if currentStatus == GameStatus.xPlaying
         {
